@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ant19jx's website</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+
+    :root {
+      --card-width: min(92vw, 25rem);
+      --card-radius: 1.5rem;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --text: #f4f7ff;
+      --button-bg: rgba(255, 255, 255, 0.12);
+      --button-bg-hover: rgba(255, 255, 255, 0.22);
+      --shadow: 0 1.25rem 2.5rem rgba(6, 12, 28, 0.35);
+      --apple-transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Montserrat", "Segoe UI", Arial, sans-serif !important;
+      font-weight: 300;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: clamp(1rem, 4vw, 2rem);
+      color: var(--text);
+      background: linear-gradient(145deg, #0d162f, #141d39 45%, #0e1730);
+      overflow: hidden;
+    }
+
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      filter: blur(18px) saturate(132%);
+      -webkit-filter: blur(18px) saturate(132%);
+      mix-blend-mode: screen;
+      will-change: transform, opacity;
+      translate: 0 0;
+      transition: translate 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .bg-orb::before {
+      content: "";
+      position: absolute;
+      inset: -14%;
+      border-radius: inherit;
+      background: inherit;
+      filter: blur(28px);
+      -webkit-filter: blur(28px);
+      opacity: 0.72;
+    }
+
+    .orb-left {
+      width: clamp(18rem, 38vw, 34rem);
+      aspect-ratio: 1 / 1;
+      top: -16vh;
+      left: -14vw;
+      background: radial-gradient(circle at 30% 32%, rgba(143, 214, 255, 0.65), rgba(60, 126, 255, 0.08) 66%, rgba(0, 0, 0, 0) 72%);
+      animation:
+        orbLeftSlideIn 1200ms cubic-bezier(0.2, 0.85, 0.25, 1) forwards,
+        orbLeftFloat 12s ease-in-out 1200ms infinite alternate;
+    }
+
+    .orb-right {
+      width: clamp(15rem, 34vw, 30rem);
+      aspect-ratio: 1 / 1;
+      right: -10vw;
+      bottom: -18vh;
+      background: radial-gradient(circle at 60% 45%, rgba(167, 255, 227, 0.58), rgba(45, 172, 210, 0.08) 64%, rgba(0, 0, 0, 0) 72%);
+      animation:
+        orbRightSlideIn 1300ms cubic-bezier(0.2, 0.85, 0.25, 1) forwards,
+        orbRightFloat 14s ease-in-out 1300ms infinite alternate;
+    }
+
+    @keyframes orbLeftSlideIn {
+      0% {
+        opacity: 0;
+        transform: translate3d(-24vw, -10vh, 0) scale(0.72);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+    }
+
+    @keyframes orbRightSlideIn {
+      0% {
+        opacity: 0;
+        transform: translate3d(24vw, 12vh, 0) scale(0.72);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+    }
+
+    @keyframes orbLeftFloat {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      100% {
+        transform: translate3d(4vw, 3vh, 0) scale(1.06);
+      }
+    }
+
+    @keyframes orbRightFloat {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      100% {
+        transform: translate3d(-4vw, -3vh, 0) scale(1.05);
+      }
+    }
+
+    @media (max-width: 768px), (pointer: coarse), (hover: none) {
+      body.options-mobile-open .orb-left {
+        translate: 74vw 58vh;
+      }
+
+      body.options-mobile-open .orb-right {
+        translate: -74vw -58vh;
+      }
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      width: var(--card-width);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.7rem, 2.5vw, 1rem);
+      padding: clamp(1rem, 4vw, 1.4rem);
+      border-radius: var(--card-radius);
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+      transition:
+        box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+        background-color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+        border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      opacity: 0;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .card h1 {
+      width: 100%;
+      margin: 0 0 0.25rem;
+      font-size: clamp(1.5rem, 5vw, 1.9rem);
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    .link-btn {
+      display: block;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 1rem;
+      padding: 0.85rem 1rem;
+      background: var(--button-bg);
+      color: var(--text);
+      font-size: clamp(0.95rem, 3.6vw, 1rem);
+      font-weight: 400;
+      cursor: pointer;
+      transition: var(--apple-transition);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .link-btn:hover {
+      transform: translateY(-4px);
+      background: var(--button-bg-hover);
+      box-shadow: 0 0.8rem 1.6rem rgba(8, 15, 35, 0.32);
+    }
+
+    .link-btn:active {
+      transform: translateY(-1px);
+    }
+
+    .link-btn:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.75);
+      outline-offset: 2px;
+    }
+
+    @media (hover: none) {
+      .link-btn:hover {
+        transform: none;
+        box-shadow: none;
+        background: var(--button-bg);
+      }
+    }
+
+    .site-footer {
+      position: fixed;
+      z-index: 1;
+      opacity: 0;
+      left: 50%;
+      bottom: clamp(0.5rem, 2.2vh, 1rem);
+      transform: translateX(-50%);
+      font-size: 0.82rem;
+      color: rgba(244, 247, 255, 0.82);
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .card.is-intro {
+      animation: cardFloatSwipeFadeIn 760ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .site-footer.is-intro {
+      animation: footerFloatSwipeFadeIn 700ms cubic-bezier(0.22, 1, 0.36, 1) 80ms forwards;
+    }
+
+    .card.is-outro {
+      animation: cardFloatSwipeFadeOut 560ms cubic-bezier(0.45, 0.02, 0.4, 1) forwards;
+      pointer-events: none;
+    }
+
+    .card.is-outro-zoom {
+      animation: cardZoomFadeOut 760ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      pointer-events: none;
+    }
+
+    .site-footer.is-outro {
+      animation: footerFloatSwipeFadeOut 500ms cubic-bezier(0.45, 0.02, 0.4, 1) forwards;
+      pointer-events: none;
+    }
+
+    .site-footer.is-outro-zoom {
+      animation: footerZoomFadeOut 680ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      pointer-events: none;
+    }
+
+    @keyframes cardFloatSwipeFadeIn {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 22px, 0) scale(0.97);
+        filter: blur(8px);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes footerFloatSwipeFadeIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 16px);
+        filter: blur(5px);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes cardFloatSwipeFadeOut {
+      0% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(32px, -26px, 0) scale(0.94);
+        filter: blur(8px);
+      }
+    }
+
+    @keyframes footerFloatSwipeFadeOut {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -18px);
+        filter: blur(6px);
+      }
+    }
+
+    @keyframes cardZoomFadeOut {
+      0% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) scale(0.78);
+        filter: blur(8px);
+      }
+    }
+
+    @keyframes footerZoomFadeOut {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, 0) scale(0.86);
+        filter: blur(6px);
+      }
+    }
+
+    body.terminal-settings-transition .orb-left {
+      translate: -86vw -72vh;
+      opacity: 0;
+    }
+
+    body.terminal-settings-transition .orb-right {
+      translate: 86vw 72vh;
+      opacity: 0;
+    }
+
+    .site-footer:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.75);
+      outline-offset: 4px;
+      border-radius: 0.25rem;
+    }
+
+    .about-desktop-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 220000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(8, 14, 28, 0.34);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+    }
+
+    .about-desktop-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .about-window {
+      position: fixed;
+      left: 1rem;
+      top: 1rem;
+      width: min(68vw, 40rem);
+      height: min(60vh, 28rem);
+      min-width: 20rem;
+      min-height: 14rem;
+      max-width: calc(100vw - 2rem);
+      max-height: calc(100vh - 2rem);
+      display: flex;
+      flex-direction: column;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(10, 18, 34, 0.52);
+      box-shadow: 0 1.3rem 2.8rem rgba(0, 0, 0, 0.38);
+      opacity: 0;
+      isolation: isolate;
+    }
+
+    .about-window::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: rgba(12, 20, 38, 0.5);
+      backdrop-filter: blur(34px) saturate(135%);
+      -webkit-backdrop-filter: blur(34px) saturate(135%);
+      pointer-events: none;
+    }
+
+    .about-desktop-overlay.active .about-window {
+      animation: aboutWindowFadeIn 320ms cubic-bezier(0.2, 0.9, 0.24, 1) forwards;
+    }
+
+    .about-desktop-overlay.closing .about-window {
+      animation: aboutWindowFadeOut 240ms cubic-bezier(0.45, 0.03, 0.4, 1) forwards;
+    }
+
+    .about-window-banner {
+      position: relative;
+      z-index: 1;
+      height: 2.55rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      cursor: grab;
+      user-select: none;
+    }
+
+    .about-window.is-dragging .about-window-banner,
+    .about-window.is-resizing .about-window-banner {
+      cursor: grabbing;
+    }
+
+    .about-close-dot {
+      width: 0.82rem;
+      height: 0.82rem;
+      border-radius: 999px;
+      background: #ff5f57;
+      box-shadow: 0 0 0 2px rgba(255, 95, 87, 0.3);
+      text-decoration: none;
+      flex: 0 0 auto;
+      margin-left: 0.1rem;
+    }
+
+    .about-close-dot:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.75);
+      outline-offset: 2px;
+    }
+
+    .about-banner-label {
+      font-size: 0.86rem;
+      letter-spacing: 0.02em;
+      color: rgba(244, 247, 255, 0.9);
+      font-weight: 500;
+    }
+
+    .about-window-body {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      padding: 1.05rem 1.15rem 1.25rem;
+      overflow: auto;
+    }
+
+    .about-window-content {
+      opacity: 0;
+      transform: translate3d(-18px, 16px, 0);
+    }
+
+    .about-window-content h2 {
+      margin: 0 0 0.65rem;
+      font-size: clamp(1.2rem, 2vw, 1.45rem);
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .about-window-content p {
+      margin: 0;
+      font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+      line-height: 1.65;
+      color: rgba(244, 247, 255, 0.9);
+    }
+
+    .about-desktop-overlay.active .about-window-content {
+      animation: aboutContentIn 380ms cubic-bezier(0.2, 0.9, 0.24, 1) 80ms forwards;
+    }
+
+    .about-desktop-overlay.closing .about-window-content {
+      animation: aboutContentOut 200ms cubic-bezier(0.45, 0.03, 0.4, 1) forwards;
+    }
+
+    .about-resize-handle {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 2.2rem;
+      height: 2.2rem;
+      border-bottom-right-radius: 1rem;
+      border-top-left-radius: 0.78rem;
+      background:
+        radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.16) 0 34%, rgba(255, 255, 255, 0.06) 58%, rgba(255, 255, 255, 0) 72%);
+      cursor: nwse-resize;
+      opacity: 0.9;
+      touch-action: none;
+    }
+
+    .about-resize-handle::before {
+      content: "";
+      position: absolute;
+      right: 0.34rem;
+      bottom: 0.34rem;
+      width: 1.08rem;
+      height: 1.08rem;
+      border-right: 2px solid rgba(255, 255, 255, 0.78);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.78);
+      border-bottom-right-radius: 0.85rem;
+    }
+
+    .about-resize-handle::after {
+      content: "";
+      position: absolute;
+      right: 0.62rem;
+      bottom: 0.62rem;
+      width: 0.56rem;
+      height: 0.56rem;
+      border-right: 2px solid rgba(255, 255, 255, 0.78);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.78);
+      border-bottom-right-radius: 0.55rem;
+    }
+
+    .about-mobile-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 220000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(8, 14, 28, 0.38);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .about-mobile-layer.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .about-mobile-close {
+      position: absolute;
+      top: max(0.9rem, env(safe-area-inset-top));
+      right: max(0.9rem, env(safe-area-inset-right));
+      width: 2rem;
+      height: 2rem;
+      border-radius: 999px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      color: rgba(244, 247, 255, 0.95);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      font-weight: 600;
+    }
+
+    .about-mobile-close:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.75);
+      outline-offset: 2px;
+    }
+
+    .about-mobile-card {
+      width: min(90vw, 24rem);
+      padding: 1.3rem 1.2rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 1.1rem 2.4rem rgba(0, 0, 0, 0.34);
+      text-align: center;
+    }
+
+    .about-mobile-card h2 {
+      margin: 0 0 0.65rem;
+      font-size: clamp(1.2rem, 5vw, 1.45rem);
+      font-weight: 600;
+    }
+
+    .about-mobile-card p {
+      margin: 0;
+      font-size: clamp(0.95rem, 3.5vw, 1.02rem);
+      line-height: 1.6;
+      color: rgba(244, 247, 255, 0.9);
+    }
+
+    @keyframes aboutWindowFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes aboutWindowFadeOut {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.97);
+      }
+    }
+
+    @keyframes aboutContentIn {
+      from {
+        opacity: 0;
+        transform: translate3d(-18px, 16px, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes aboutContentOut {
+      from {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        opacity: 0;
+        transform: translate3d(14px, -12px, 0);
+      }
+    }
+
+    @media (max-width: 768px), (pointer: coarse), (hover: none) {
+      .about-desktop-overlay {
+        display: none;
+      }
+
+      .options-layer .pref-icon {
+        display: none;
+      }
+    }
+
+    @media (min-width: 769px) and (pointer: fine) and (hover: hover) {
+      .about-mobile-layer {
+        display: none;
+      }
+    }
+
+    .options-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 219000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: clamp(1rem, 4vw, 2rem);
+      background: rgba(0, 0, 0, 0.68);
+      backdrop-filter: blur(28px) saturate(125%);
+      -webkit-backdrop-filter: blur(28px) saturate(125%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .options-layer.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .options-close {
+      position: absolute;
+      top: max(0.9rem, env(safe-area-inset-top));
+      right: max(0.9rem, env(safe-area-inset-right));
+      width: 2.15rem;
+      height: 2.15rem;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      text-decoration: none;
+      color: rgba(244, 247, 255, 0.95);
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      font-size: 1.18rem;
+      line-height: 1;
+      font-weight: 600;
+      padding: 0;
+      text-align: center;
+      font-family: inherit;
+    }
+
+    .options-close:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.75);
+      outline-offset: 2px;
+    }
+
+    .options-panel {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      width: min(90vw, 32rem);
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(10, 16, 30, 0.62);
+      box-shadow: 0 1.2rem 2.6rem rgba(0, 0, 0, 0.4);
+      padding: 1.25rem;
+    }
+
+    .options-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: rgba(14, 22, 40, 0.52);
+      backdrop-filter: blur(36px) saturate(132%);
+      -webkit-backdrop-filter: blur(36px) saturate(132%);
+      pointer-events: none;
+    }
+
+    .options-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .options-title {
+      margin: 0 0 0.95rem;
+      font-size: clamp(1.3rem, 4.8vw, 1.6rem);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-align: left;
+      color: #fff;
+      text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+    }
+
+    .pref-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .pref-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: background 0.3s ease;
+      gap: 0.9rem;
+    }
+
+    .pref-card:hover {
+      background: rgba(255, 255, 255, 0.11);
+    }
+
+    .pref-info {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      min-width: 0;
+    }
+
+    .pref-icon {
+      font-size: 1.35rem;
+      line-height: 1;
+      flex: 0 0 auto;
+    }
+
+    .pref-text {
+      text-align: left;
+      min-width: 0;
+    }
+
+    .pref-text strong {
+      display: block;
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 500;
+      margin-bottom: 0.15rem;
+    }
+
+    .pref-text span {
+      font-size: 0.82rem;
+      color: rgba(244, 247, 255, 0.84);
+      line-height: 1.45;
+      display: block;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex: 0 0 auto;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      background-color: #444;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider::before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #fff;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    .switch input:checked + .slider {
+      background-color: #4f8cff;
+    }
+
+    .switch input:checked + .slider::before {
+      transform: translateX(20px);
+    }
+
+    .btn-settings-toggle {
+      min-width: 5.4rem;
+      padding: 0.62rem 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      border-radius: 0.62rem;
+      color: #fff;
+      font-weight: 500;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.22s ease, color 0.22s ease, transform 0.22s ease;
+      display: inline-block;
+      line-height: 1.2;
+    }
+
+    .btn-settings-toggle:hover {
+      background: #4f8cff;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    body.low-spec .card,
+    body.low-spec .link-btn,
+    body.low-spec .about-window,
+    body.low-spec .about-window::before,
+    body.low-spec .about-mobile-card,
+    body.low-spec .options-panel,
+    body.low-spec .pref-card {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      box-shadow: none !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+      background: rgba(18, 24, 38, 0.92) !important;
+    }
+
+    body.low-spec .about-desktop-overlay,
+    body.low-spec .about-mobile-layer,
+    body.low-spec .options-layer {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: rgba(0, 0, 0, 0.74) !important;
+    }
+
+    body.low-spec .bg-orb {
+      animation: none !important;
+      filter: none !important;
+      -webkit-filter: none !important;
+      opacity: 0.18 !important;
+      mix-blend-mode: normal;
+    }
+
+    body.low-spec .bg-orb::before {
+      display: none;
+    }
+
+    .terminal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: #000;
+      z-index: 999999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .terminal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .terminal-overlay.settings-launch {
+      transition: opacity 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .terminal-content {
+      color: #fff;
+      width: min(92vw, 32rem);
+      text-align: center;
+      font-size: 1rem;
+      position: relative;
+    }
+
+    .terminal-overlay.settings-launch .terminal-content {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+
+    .terminal-overlay.settings-launch.active .terminal-content {
+      animation: terminalSettingsContentIn 760ms cubic-bezier(0.22, 1, 0.36, 1) 140ms forwards;
+    }
+
+    @keyframes terminalSettingsContentIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .terminal-loader {
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin: 1.25rem auto;
+    }
+
+    .terminal-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .terminal-option,
+    .terminal-back-btn {
+      display: block;
+      background: #444;
+      color: #fff;
+      border: 1px solid #666;
+      padding: 0.72rem 1rem;
+      border-radius: 0.45rem;
+      cursor: pointer;
+      font-size: 0.98rem;
+      transition: background 0.3s;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .terminal-option:hover,
+    .terminal-back-btn:hover {
+      background: #555;
+    }
+
+    .terminal-option.safe-mode {
+      background: #2a2a2a;
+      border-color: #00ff00;
+      color: #00ff00;
+    }
+
+    .terminal-option.safe-mode:hover {
+      background: #3a3a3a;
+    }
+
+    .terminal-option.test-mode {
+      background: #222d3f;
+      border-color: #4f8cff;
+      color: #c3d8ff;
+    }
+
+    .terminal-option.test-mode:hover {
+      background: #2b3950;
+    }
+
+    .terminal-title {
+      font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .terminal-processing {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 1.25rem;
+      margin: 1.25rem 0;
+    }
+
+    .countdown-display {
+      display: inline-block;
+      min-width: 2rem;
+      text-align: center;
+    }
+
+    .terminal-success {
+      color: #00ff00;
+      font-size: 1.1rem;
+      margin: 1rem 0;
+    }
+
+    .terminal-quit {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #aaa;
+    }
+
+    .terminal-quit-loader {
+      width: 1.9rem;
+      height: 1.9rem;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin: 0.9rem auto;
+    }
+
+    #terminalText {
+      min-width: min(26rem, 80vw);
+      text-align: left;
+      line-height: 1.45;
+      margin: 0 auto;
+    }
+
+    .terminal-line {
+      white-space: pre-wrap;
+      opacity: 0;
+      transform: translateY(6px);
+      animation: terminalLineIn 180ms ease forwards;
+    }
+
+    .terminal-line.typing {
+      position: relative;
+    }
+
+    .terminal-line.typing::after {
+      content: "|";
+      margin-left: 2px;
+      color: #8df4ff;
+      animation: terminalCursorBlink 820ms steps(2, end) infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes terminalLineIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes terminalCursorBlink {
+      0%, 45% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bg-orb,
+      .card,
+      .site-footer,
+      .about-desktop-overlay.active .about-window,
+      .about-desktop-overlay.closing .about-window,
+      .about-desktop-overlay.active .about-window-content,
+      .about-desktop-overlay.closing .about-window-content {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .bg-orb {
+        transition: none !important;
+        filter: blur(18px) saturate(132%) !important;
+        -webkit-filter: blur(18px) saturate(132%) !important;
+      }
+      .card,
+      .site-footer {
+        filter: none !important;
+      }
+      .site-footer {
+        transform: translateX(-50%) !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orb orb-left" aria-hidden="true"></div>
+  <div class="bg-orb orb-right" aria-hidden="true"></div>
+
+  <div class="card is-intro" id="mainCard">
+    <h1>ant19jx's website</h1>
+    <a class="link-btn" href="#">Portfolio</a>
+    <a class="link-btn" href="#">Projects</a>
+    <a class="link-btn" href="#">Contact</a>
+    <a class="link-btn" href="#">GitHub</a>
+    <a class="link-btn" href="#" id="optionsLink">Options / Settings</a>
+    <!-- <a class="link-btn" href="#" id="aboutLink">About</a> -->
+  </div>
+  <footer class="site-footer is-intro" id="versionFooter" tabindex="0" role="button" aria-label="Version 1.0.2">
+    v1.0.2
+  </footer>
+
+  <div id="aboutDesktopOverlay" class="about-desktop-overlay" aria-hidden="true">
+    <section class="about-window" id="aboutWindow" role="dialog" aria-modal="true" aria-labelledby="aboutWindowTitle">
+      <div class="about-window-banner" id="aboutWindowBanner">
+        <a href="#" class="about-close-dot" id="aboutCloseDot" role="button" aria-label="Close window"></a>
+        <span class="about-banner-label">About</span>
+      </div>
+      <div class="about-window-body">
+        <div class="about-window-content" id="aboutWindowContent">
+          <h2 id="aboutWindowTitle">About this website</h2>
+          <p>Content content</p>
+        </div>
+        <div class="about-resize-handle" id="aboutResizeHandle" aria-hidden="true"></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="aboutMobileLayer" class="about-mobile-layer" aria-hidden="true">
+    <a href="#" id="aboutMobileClose" class="about-mobile-close" role="button" aria-label="Close">x</a>
+    <div class="about-mobile-card" role="dialog" aria-modal="true" aria-labelledby="aboutMobileTitle">
+      <h2 id="aboutMobileTitle">Title</h2>
+      <p>Content content</p>
+    </div>
+  </div>
+
+  <div id="optionsLayer" class="options-layer" aria-hidden="true">
+    <a href="#" id="optionsClose" class="options-close" role="button" aria-label="Close">&times;</a>
+    <section class="options-panel" role="dialog" aria-modal="true" aria-labelledby="optionsTitle">
+      <h2 id="optionsTitle" class="options-title">Options</h2>
+      <div class="pref-container">
+        <div class="pref-card">
+          <div class="pref-info">
+            <div class="pref-icon">PF</div>
+            <div class="pref-text">
+              <strong>Performance Mode</strong>
+              <span>Disables glass blurs and animations for low-end CPUs.</span>
+            </div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="perfToggle" aria-label="Toggle Performance Mode">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="pref-card">
+          <div class="pref-info">
+            <div class="pref-icon">TR</div>
+            <div class="pref-text">
+              <strong>Terminal</strong>
+              <span>Open Terminal directly from Settings.</span>
+            </div>
+          </div>
+          <a href="#" id="openTerminalFromOptions" class="btn-settings-toggle" role="button">Open</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="terminalOverlay" class="terminal-overlay" aria-hidden="true">
+    <div class="terminal-content">
+      <div id="terminalText">Entering Terminal...</div>
+      <div id="terminalLoader" class="terminal-loader" style="display:none;"></div>
+
+      <div id="terminalOptions" class="terminal-options" style="display:none;">
+        <div class="terminal-title">ArchOS Terminal v0.3</div>
+        <a class="terminal-option" id="clearOption" href="#" role="button">Clear localstorage</a>
+        <!-- <a class="terminal-option safe-mode" id="safeModeOption" href="#" role="button">Safe Mode</a>
+        <a class="terminal-option test-mode" id="testModeOption" href="#" role="button">Test Mode</a> -->
+        <a class="terminal-option" id="exitOption" href="#" role="button">Exit Terminal</a>
+      </div>
+
+      <div id="terminalClearOptions" class="terminal-options" style="display:none;">
+        <a class="terminal-option" id="clearNowOption" href="#" role="button">Clear Now</a>
+        <a class="terminal-option" id="backOption" href="#" role="button">Back</a>
+      </div>
+
+      <div id="terminalProcessing" class="terminal-processing" style="display:none;">
+        Processing <span id="countdownDisplay" class="countdown-display">[0]</span>
+      </div>
+
+      <div id="terminalSuccess" class="terminal-success" style="display:none;">
+        Successfully Cleared
+      </div>
+
+      <a id="terminalBackButton" class="terminal-back-btn" href="#" role="button" style="display:none;">
+        Back to Terminal
+      </a>
+
+      <div id="terminalQuit" class="terminal-quit" style="display:none;">Quitting Terminal...</div>
+      <div id="terminalQuitLoader" class="terminal-quit-loader" style="display:none;"></div>
+    </div>
+  </div>
+
+  <script>
+    let footerClickCount = 0;
+    let terminalActivated = false;
+    const MAIN_OUTRO_DURATION = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 560;
+    const SETTINGS_TERMINAL_OUTRO_DURATION = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 760;
+    const ABOUT_CLOSE_DURATION = 240;
+    const PERF_MODE_STORAGE_KEY = "performanceMode";
+    const aboutModeQuery = window.matchMedia("(max-width: 768px), (pointer: coarse), (hover: none)");
+    const aboutWindowRuntime = {
+      dragging: false,
+      resizing: false,
+      closeTimer: null,
+      pointerId: null,
+      dragOffsetX: 0,
+      dragOffsetY: 0,
+      startWidth: 0,
+      startHeight: 0,
+      startLeft: 0,
+      startTop: 0,
+      startX: 0,
+      startY: 0
+    };
+
+    function setPerformanceMode(enabled, persist = true) {
+      const nextEnabled = !!enabled;
+      document.body.classList.toggle("low-spec", nextEnabled);
+
+      const perfToggle = document.getElementById("perfToggle");
+      if (perfToggle) perfToggle.checked = nextEnabled;
+
+      if (!persist) return;
+      try {
+        localStorage.setItem(PERF_MODE_STORAGE_KEY, nextEnabled ? "enabled" : "disabled");
+      } catch (_) {}
+    }
+
+    function initializePerformanceMode() {
+      let stored = "disabled";
+      try {
+        const value = localStorage.getItem(PERF_MODE_STORAGE_KEY);
+        if (value === "enabled" || value === "disabled") stored = value;
+      } catch (_) {}
+      setPerformanceMode(stored === "enabled", false);
+    }
+
+    function isAboutMobileMode() {
+      return aboutModeQuery.matches;
+    }
+
+    function clampValue(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function centerAboutWindow() {
+      const win = document.getElementById("aboutWindow");
+      if (!win) return;
+
+      const rect = win.getBoundingClientRect();
+      const left = Math.max(16, Math.round((window.innerWidth - rect.width) / 2));
+      const top = Math.max(16, Math.round((window.innerHeight - rect.height) / 2));
+      win.style.left = left + "px";
+      win.style.top = top + "px";
+    }
+
+    function keepAboutWindowInViewport() {
+      const win = document.getElementById("aboutWindow");
+      const desktopOverlay = document.getElementById("aboutDesktopOverlay");
+      if (!win || !desktopOverlay || !desktopOverlay.classList.contains("active")) return;
+
+      const rect = win.getBoundingClientRect();
+      const maxLeft = Math.max(8, window.innerWidth - rect.width - 8);
+      const maxTop = Math.max(8, window.innerHeight - rect.height - 8);
+      const nextLeft = clampValue(rect.left, 8, maxLeft);
+      const nextTop = clampValue(rect.top, 8, maxTop);
+
+      if (Math.abs(nextLeft - rect.left) > 0.5) win.style.left = nextLeft + "px";
+      if (Math.abs(nextTop - rect.top) > 0.5) win.style.top = nextTop + "px";
+    }
+
+    function openAboutDesktopWindow() {
+      const overlay = document.getElementById("aboutDesktopOverlay");
+      const win = document.getElementById("aboutWindow");
+      if (!overlay || !win) return;
+
+      if (aboutWindowRuntime.closeTimer) {
+        window.clearTimeout(aboutWindowRuntime.closeTimer);
+        aboutWindowRuntime.closeTimer = null;
+      }
+
+      overlay.classList.remove("closing", "active");
+      overlay.setAttribute("aria-hidden", "false");
+      void overlay.offsetWidth;
+      centerAboutWindow();
+      overlay.classList.add("active");
+    }
+
+    function closeAboutDesktopWindow() {
+      const overlay = document.getElementById("aboutDesktopOverlay");
+      if (!overlay || !overlay.classList.contains("active") || overlay.classList.contains("closing")) return;
+
+      overlay.classList.add("closing");
+      aboutWindowRuntime.closeTimer = window.setTimeout(() => {
+        overlay.classList.remove("active", "closing");
+        overlay.setAttribute("aria-hidden", "true");
+        aboutWindowRuntime.closeTimer = null;
+      }, ABOUT_CLOSE_DURATION);
+    }
+
+    function openAboutMobileLayer() {
+      const layer = document.getElementById("aboutMobileLayer");
+      if (!layer) return;
+      layer.classList.add("active");
+      layer.setAttribute("aria-hidden", "false");
+    }
+
+    function closeAboutMobileLayer() {
+      const layer = document.getElementById("aboutMobileLayer");
+      if (!layer) return;
+      layer.classList.remove("active");
+      layer.setAttribute("aria-hidden", "true");
+    }
+
+    function openAboutExperience() {
+      closeOptionsLayer();
+      if (isAboutMobileMode()) {
+        closeAboutDesktopWindow();
+        openAboutMobileLayer();
+      } else {
+        closeAboutMobileLayer();
+        openAboutDesktopWindow();
+      }
+    }
+
+    function closeAboutExperience() {
+      closeAboutDesktopWindow();
+      closeAboutMobileLayer();
+    }
+
+    function openOptionsLayer() {
+      const layer = document.getElementById("optionsLayer");
+      if (!layer) return;
+      closeAboutExperience();
+      layer.classList.add("active");
+      layer.setAttribute("aria-hidden", "false");
+      document.body.classList.toggle("options-mobile-open", isAboutMobileMode());
+    }
+
+    function closeOptionsLayer() {
+      const layer = document.getElementById("optionsLayer");
+      if (!layer) return;
+      layer.classList.remove("active");
+      layer.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("options-mobile-open");
+    }
+
+    function setupOptionsLayer() {
+      const optionsLink = document.getElementById("optionsLink");
+      const optionsLayer = document.getElementById("optionsLayer");
+      const optionsClose = document.getElementById("optionsClose");
+      const perfToggle = document.getElementById("perfToggle");
+      const openTerminalFromOptions = document.getElementById("openTerminalFromOptions");
+
+      if (optionsLink) {
+        optionsLink.addEventListener("click", (event) => {
+          event.preventDefault();
+          openOptionsLayer();
+        });
+      }
+
+      if (optionsClose) {
+        optionsClose.addEventListener("click", (event) => {
+          event.preventDefault();
+          closeOptionsLayer();
+        });
+      }
+
+      if (optionsLayer) {
+        optionsLayer.addEventListener("click", (event) => {
+          if (event.target === optionsLayer) closeOptionsLayer();
+        });
+      }
+
+      if (perfToggle) {
+        perfToggle.addEventListener("change", () => {
+          setPerformanceMode(perfToggle.checked, true);
+        });
+      }
+
+      if (openTerminalFromOptions) {
+        openTerminalFromOptions.addEventListener("click", (event) => {
+          event.preventDefault();
+          startTerminalSequence("settings");
+        });
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeOptionsLayer();
+      });
+
+      const syncOptionsMobileOrbState = () => {
+        if (optionsLayer && optionsLayer.classList.contains("active") && isAboutMobileMode()) {
+          document.body.classList.add("options-mobile-open");
+        } else {
+          document.body.classList.remove("options-mobile-open");
+        }
+      };
+
+      if (typeof aboutModeQuery.addEventListener === "function") {
+        aboutModeQuery.addEventListener("change", syncOptionsMobileOrbState);
+      } else if (typeof aboutModeQuery.addListener === "function") {
+        aboutModeQuery.addListener(syncOptionsMobileOrbState);
+      }
+
+      window.addEventListener("resize", syncOptionsMobileOrbState);
+    }
+
+    function stopAboutPointerInteractions() {
+      const win = document.getElementById("aboutWindow");
+      if (win) win.classList.remove("is-dragging", "is-resizing");
+      aboutWindowRuntime.dragging = false;
+      aboutWindowRuntime.resizing = false;
+      aboutWindowRuntime.pointerId = null;
+    }
+
+    function setupAboutInteractions() {
+      const aboutLink = document.getElementById("aboutLink");
+      const desktopOverlay = document.getElementById("aboutDesktopOverlay");
+      const mobileLayer = document.getElementById("aboutMobileLayer");
+      const closeDot = document.getElementById("aboutCloseDot");
+      const mobileClose = document.getElementById("aboutMobileClose");
+      const banner = document.getElementById("aboutWindowBanner");
+      const resizeHandle = document.getElementById("aboutResizeHandle");
+      const win = document.getElementById("aboutWindow");
+
+      if (aboutLink) {
+        aboutLink.addEventListener("click", (event) => {
+          event.preventDefault();
+          openAboutExperience();
+        });
+      }
+
+      if (closeDot) {
+        closeDot.addEventListener("click", (event) => {
+          event.preventDefault();
+          closeAboutDesktopWindow();
+        });
+      }
+
+      if (mobileClose) {
+        mobileClose.addEventListener("click", (event) => {
+          event.preventDefault();
+          closeAboutMobileLayer();
+        });
+      }
+
+      if (banner && win) {
+        banner.addEventListener("pointerdown", (event) => {
+          if (event.button !== undefined && event.button !== 0) return;
+          if (isAboutMobileMode()) return;
+          if (event.target.closest("#aboutCloseDot")) return;
+          if (!desktopOverlay || !desktopOverlay.classList.contains("active")) return;
+
+          const rect = win.getBoundingClientRect();
+          aboutWindowRuntime.dragging = true;
+          aboutWindowRuntime.resizing = false;
+          aboutWindowRuntime.pointerId = event.pointerId;
+          aboutWindowRuntime.dragOffsetX = event.clientX - rect.left;
+          aboutWindowRuntime.dragOffsetY = event.clientY - rect.top;
+          win.classList.add("is-dragging");
+
+          if (banner.setPointerCapture) {
+            try { banner.setPointerCapture(event.pointerId); } catch (_) {}
+          }
+          event.preventDefault();
+        });
+      }
+
+      if (resizeHandle && win) {
+        resizeHandle.addEventListener("pointerdown", (event) => {
+          if (event.button !== undefined && event.button !== 0) return;
+          if (isAboutMobileMode()) return;
+          if (!desktopOverlay || !desktopOverlay.classList.contains("active")) return;
+
+          const rect = win.getBoundingClientRect();
+          aboutWindowRuntime.resizing = true;
+          aboutWindowRuntime.dragging = false;
+          aboutWindowRuntime.pointerId = event.pointerId;
+          aboutWindowRuntime.startWidth = rect.width;
+          aboutWindowRuntime.startHeight = rect.height;
+          aboutWindowRuntime.startLeft = rect.left;
+          aboutWindowRuntime.startTop = rect.top;
+          aboutWindowRuntime.startX = event.clientX;
+          aboutWindowRuntime.startY = event.clientY;
+          win.classList.add("is-resizing");
+
+          if (resizeHandle.setPointerCapture) {
+            try { resizeHandle.setPointerCapture(event.pointerId); } catch (_) {}
+          }
+          event.preventDefault();
+          event.stopPropagation();
+        });
+      }
+
+      window.addEventListener("pointermove", (event) => {
+        if (!win) return;
+        if (
+          aboutWindowRuntime.pointerId !== null &&
+          event.pointerId !== undefined &&
+          event.pointerId !== aboutWindowRuntime.pointerId
+        ) {
+          return;
+        }
+
+        if (aboutWindowRuntime.dragging) {
+          const rect = win.getBoundingClientRect();
+          const maxLeft = Math.max(8, window.innerWidth - rect.width - 8);
+          const maxTop = Math.max(8, window.innerHeight - rect.height - 8);
+
+          const nextLeft = clampValue(event.clientX - aboutWindowRuntime.dragOffsetX, 8, maxLeft);
+          const nextTop = clampValue(event.clientY - aboutWindowRuntime.dragOffsetY, 8, maxTop);
+          win.style.left = nextLeft + "px";
+          win.style.top = nextTop + "px";
+        }
+
+        if (aboutWindowRuntime.resizing) {
+          const minWidth = 320;
+          const minHeight = 224;
+          const maxWidth = Math.max(minWidth, window.innerWidth - aboutWindowRuntime.startLeft - 12);
+          const maxHeight = Math.max(minHeight, window.innerHeight - aboutWindowRuntime.startTop - 12);
+          const widthDelta = event.clientX - aboutWindowRuntime.startX;
+          const heightDelta = event.clientY - aboutWindowRuntime.startY;
+
+          const nextWidth = clampValue(aboutWindowRuntime.startWidth + widthDelta, minWidth, maxWidth);
+          const nextHeight = clampValue(aboutWindowRuntime.startHeight + heightDelta, minHeight, maxHeight);
+          win.style.width = nextWidth + "px";
+          win.style.height = nextHeight + "px";
+        }
+      });
+
+      window.addEventListener("pointerup", () => {
+        stopAboutPointerInteractions();
+      });
+
+      window.addEventListener("pointercancel", () => {
+        stopAboutPointerInteractions();
+      });
+
+      window.addEventListener("resize", () => {
+        if (isAboutMobileMode()) {
+          closeAboutDesktopWindow();
+        } else {
+          closeAboutMobileLayer();
+          keepAboutWindowInViewport();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeAboutExperience();
+      });
+
+      if (desktopOverlay) {
+        desktopOverlay.addEventListener("click", (event) => {
+          if (event.target === desktopOverlay) closeAboutDesktopWindow();
+        });
+      }
+
+      if (mobileLayer) {
+        mobileLayer.addEventListener("click", (event) => {
+          if (event.target === mobileLayer) closeAboutMobileLayer();
+        });
+      }
+    }
+
+    function animateMainContentIntro() {
+      const card = document.getElementById("mainCard");
+      const footer = document.getElementById("versionFooter");
+      document.body.classList.remove("terminal-settings-transition");
+
+      if (card) {
+        card.classList.remove("is-outro", "is-outro-zoom", "is-intro");
+        void card.offsetWidth;
+        card.classList.add("is-intro");
+      }
+
+      if (footer) {
+        footer.classList.remove("is-outro", "is-outro-zoom", "is-intro");
+        void footer.offsetWidth;
+        footer.classList.add("is-intro");
+      }
+    }
+
+    function animateMainContentOutro(onComplete) {
+      const card = document.getElementById("mainCard");
+      const footer = document.getElementById("versionFooter");
+
+      if (card) {
+        card.classList.remove("is-intro", "is-outro-zoom");
+        card.classList.add("is-outro");
+      }
+
+      if (footer) {
+        footer.classList.remove("is-intro", "is-outro-zoom");
+        footer.classList.add("is-outro");
+      }
+
+      window.setTimeout(() => {
+        if (typeof onComplete === "function") onComplete();
+      }, MAIN_OUTRO_DURATION);
+    }
+
+    function animateSettingsTerminalLaunchTransition(onComplete) {
+      const card = document.getElementById("mainCard");
+      const footer = document.getElementById("versionFooter");
+
+      if (card) {
+        card.classList.remove("is-intro", "is-outro", "is-outro-zoom");
+        void card.offsetWidth;
+        card.classList.add("is-outro-zoom");
+      }
+
+      if (footer) {
+        footer.classList.remove("is-intro", "is-outro", "is-outro-zoom");
+        void footer.offsetWidth;
+        footer.classList.add("is-outro-zoom");
+      }
+
+      document.body.classList.add("terminal-settings-transition");
+      window.setTimeout(() => {
+        if (typeof onComplete === "function") onComplete();
+      }, SETTINGS_TERMINAL_OUTRO_DURATION);
+    }
+
+    function typeTerminalLines(target, lines, onComplete, typingDelay = 24, lineDelay = 180) {
+      if (!target) {
+        if (typeof onComplete === "function") onComplete();
+        return;
+      }
+
+      target.innerHTML = "";
+      let lineIndex = 0;
+
+      const typeLine = () => {
+        if (lineIndex >= lines.length) {
+          if (typeof onComplete === "function") onComplete();
+          return;
+        }
+
+        const line = lines[lineIndex];
+        const lineEl = document.createElement("div");
+        lineEl.className = "terminal-line typing";
+        target.appendChild(lineEl);
+
+        let charIndex = 0;
+        const typeChar = () => {
+          lineEl.textContent = line.slice(0, charIndex);
+          if (charIndex < line.length) {
+            charIndex++;
+            setTimeout(typeChar, typingDelay);
+          } else {
+            lineEl.classList.remove("typing");
+            lineIndex++;
+            setTimeout(typeLine, lineDelay);
+          }
+        };
+
+        typeChar();
+      };
+
+      typeLine();
+    }
+
+    function startTerminalSequence(launchSource = "default") {
+      const isSettingsLaunch = launchSource === "settings";
+      closeOptionsLayer();
+
+      const runTerminalBoot = () => {
+        const overlay = document.getElementById("terminalOverlay");
+        const tText = document.getElementById("terminalText");
+        const tLoader = document.getElementById("terminalLoader");
+        const tOptions = document.getElementById("terminalOptions");
+        const clearSub = document.getElementById("terminalClearOptions");
+        const tProc = document.getElementById("terminalProcessing");
+        const tSucc = document.getElementById("terminalSuccess");
+        const tBackBtn = document.getElementById("terminalBackButton");
+        const tQuit = document.getElementById("terminalQuit");
+        const tQLoader = document.getElementById("terminalQuitLoader");
+        const introLines = [
+          "> Initializing ArchOS Terminal...",
+          "> Syncing secure profile...",
+          "> Loading command modules...",
+          "> Terminal ready."
+        ];
+
+        if (overlay) {
+          overlay.classList.toggle("settings-launch", isSettingsLaunch);
+          overlay.classList.add("active");
+          overlay.setAttribute("aria-hidden", "false");
+        }
+
+        if (tText) tText.style.display = "block";
+        if (tLoader) tLoader.style.display = "none";
+        if (tOptions) tOptions.style.display = "none";
+        if (clearSub) clearSub.style.display = "none";
+        if (tProc) tProc.style.display = "none";
+        if (tSucc) tSucc.style.display = "none";
+        if (tBackBtn) tBackBtn.style.display = "none";
+        if (tQuit) tQuit.style.display = "none";
+        if (tQLoader) tQLoader.style.display = "none";
+
+        typeTerminalLines(tText, introLines, () => {
+          if (tLoader) tLoader.style.display = "block";
+          setTimeout(() => {
+            if (tLoader) tLoader.style.display = "none";
+            if (tText) tText.style.display = "none";
+            if (tOptions) tOptions.style.display = "flex";
+          }, 850);
+        });
+      };
+
+      if (isSettingsLaunch) {
+        animateSettingsTerminalLaunchTransition(runTerminalBoot);
+      } else {
+        animateMainContentOutro(runTerminalBoot);
+      }
+    }
+
+    function setupTerminalOverlay() {
+      const clearOpt = document.getElementById("clearOption");
+      const safeOpt = document.getElementById("safeModeOption");
+      const testOpt = document.getElementById("testModeOption");
+      const exitOpt = document.getElementById("exitOption");
+
+      const clearSub = document.getElementById("terminalClearOptions");
+      const clearNow = document.getElementById("clearNowOption");
+      const backOpt = document.getElementById("backOption");
+      const tOptions = document.getElementById("terminalOptions");
+      const tOverlay = document.getElementById("terminalOverlay");
+
+      const tProc = document.getElementById("terminalProcessing");
+      const cdDisp = document.getElementById("countdownDisplay");
+      const tSucc = document.getElementById("terminalSuccess");
+      const tBackBtn = document.getElementById("terminalBackButton");
+      const tQuit = document.getElementById("terminalQuit");
+      const tQLoader = document.getElementById("terminalQuitLoader");
+
+      if (clearOpt) {
+        clearOpt.onclick = (event) => {
+          event.preventDefault();
+          if (tOptions) tOptions.style.display = "none";
+          if (clearSub) clearSub.style.display = "flex";
+          if (tSucc) tSucc.style.display = "none";
+          if (tBackBtn) tBackBtn.style.display = "none";
+        };
+      }
+
+      if (backOpt) {
+        backOpt.onclick = (event) => {
+          event.preventDefault();
+          if (clearSub) clearSub.style.display = "none";
+          if (tOptions) tOptions.style.display = "flex";
+        };
+      }
+
+      if (exitOpt) {
+        exitOpt.onclick = (event) => {
+          event.preventDefault();
+          if (tOptions) tOptions.style.display = "none";
+          if (clearSub) clearSub.style.display = "none";
+          if (tQuit) tQuit.style.display = "block";
+          if (tQLoader) tQLoader.style.display = "block";
+
+          setTimeout(() => {
+            if (tOverlay) {
+              tOverlay.classList.remove("active");
+              tOverlay.classList.remove("settings-launch");
+              tOverlay.setAttribute("aria-hidden", "true");
+            }
+            if (tQuit) tQuit.style.display = "none";
+            if (tQLoader) tQLoader.style.display = "none";
+            if (tSucc) tSucc.style.display = "none";
+            if (tBackBtn) tBackBtn.style.display = "none";
+            terminalActivated = false;
+            footerClickCount = 0;
+            animateMainContentIntro();
+          }, 1200);
+        };
+      }
+
+      if (clearNow) {
+        clearNow.onclick = (event) => {
+          event.preventDefault();
+          if (clearSub) clearSub.style.display = "none";
+          if (tProc) tProc.style.display = "flex";
+          if (tSucc) tSucc.style.display = "none";
+          if (tBackBtn) tBackBtn.style.display = "none";
+
+          let count = 0;
+          if (cdDisp) cdDisp.textContent = "[" + count + "]";
+
+          const interval = setInterval(() => {
+            count++;
+            if (cdDisp) cdDisp.textContent = "[" + count + "]";
+            if (count >= 4) {
+              clearInterval(interval);
+              localStorage.clear();
+              sessionStorage.clear();
+              if (tProc) tProc.style.display = "none";
+              if (tSucc) {
+                tSucc.textContent = "Successfully Cleared";
+                tSucc.style.display = "block";
+              }
+              if (tBackBtn) {
+                tBackBtn.style.display = "inline-block";
+              }
+            }
+          }, 1000);
+        };
+      }
+
+      if (tBackBtn) {
+        tBackBtn.onclick = (event) => {
+          event.preventDefault();
+          if (tSucc) tSucc.style.display = "none";
+          if (tBackBtn) tBackBtn.style.display = "none";
+          if (tOptions) tOptions.style.display = "flex";
+        };
+      }
+
+      const unavailableModeHandler = (event) => {
+        event.preventDefault();
+        if (tOptions) tOptions.style.display = "none";
+        if (tSucc) {
+          tSucc.textContent = "Mode unavailable in Link Direct build";
+          tSucc.style.display = "block";
+        }
+        if (tBackBtn) tBackBtn.style.display = "inline-block";
+      };
+
+      if (safeOpt) safeOpt.onclick = unavailableModeHandler;
+      if (testOpt) testOpt.onclick = unavailableModeHandler;
+    }
+
+    function setupVersionTerminalTrigger() {
+      const versionFooter = document.getElementById("versionFooter");
+      const terminalOverlay = document.getElementById("terminalOverlay");
+      if (!versionFooter) return;
+
+      const trigger = () => {
+        if (terminalOverlay && terminalOverlay.classList.contains("active")) return;
+        footerClickCount++;
+        if (footerClickCount >= 10 && !terminalActivated) {
+          footerClickCount = 0;
+          terminalActivated = true;
+          startTerminalSequence();
+        }
+      };
+
+      versionFooter.addEventListener("click", trigger);
+      versionFooter.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          trigger();
+        }
+      });
+    }
+
+    initializePerformanceMode();
+    setupTerminalOverlay();
+    setupVersionTerminalTrigger();
+    setupAboutInteractions();
+    setupOptionsLayer();
+  </script>
+  
+</body>
+</html>
