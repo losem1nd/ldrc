@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>ant19jx's website</title>
+  <title>8jxaaa's website</title>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
 
@@ -19,6 +19,7 @@
       --button-bg-hover: rgba(255, 255, 255, 0.22);
       --shadow: 0 1.25rem 2.5rem rgba(6, 12, 28, 0.35);
       --apple-transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      --theme-swap-duration: 360ms;
     }
 
     * {
@@ -51,6 +52,47 @@
       color: var(--text);
       background: linear-gradient(145deg, #0d162f, #141d39 45%, #0e1730);
       overflow: hidden;
+    }
+
+    body,
+    .card,
+    .link-btn,
+    .site-footer,
+    .about-window,
+    .about-mobile-card,
+    .options-panel,
+    .pref-card,
+    .options-layer,
+    .about-desktop-overlay,
+    .about-mobile-layer,
+    .bg-orb {
+      transition:
+        background-color var(--theme-swap-duration) ease,
+        background var(--theme-swap-duration) ease,
+        border-color var(--theme-swap-duration) ease,
+        color var(--theme-swap-duration) ease,
+        box-shadow var(--theme-swap-duration) ease,
+        filter var(--theme-swap-duration) ease,
+        opacity var(--theme-swap-duration) ease;
+    }
+
+    body.theme-transition-active .card,
+    body.theme-transition-active .link-btn,
+    body.theme-transition-active .options-panel,
+    body.theme-transition-active .pref-card {
+      animation: themePulse 380ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes themePulse {
+      0% {
+        transform: scale(1);
+      }
+      45% {
+        transform: scale(1.01);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
 
     .bg-orb {
@@ -867,6 +909,240 @@
       transform: translateY(-1px);
     }
 
+    .theme-select {
+      position: relative;
+      min-width: 11.2rem;
+      flex: 0 0 auto;
+    }
+
+    .theme-select-trigger {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 0.62rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      padding: 0.6rem 0.72rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .theme-select-trigger:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.78);
+      outline-offset: 2px;
+    }
+
+    .theme-select-label {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .theme-select-caret {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-right: 2px solid rgba(255, 255, 255, 0.84);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.84);
+      transform: rotate(45deg) translateY(-1px);
+      transition: transform 180ms ease;
+      flex: 0 0 auto;
+    }
+
+    .theme-select.open .theme-select-caret {
+      transform: rotate(-135deg) translateY(-1px);
+    }
+
+    .theme-select-menu {
+      position: absolute;
+      top: calc(100% + 0.38rem);
+      left: 0;
+      right: 0;
+      background: rgba(10, 18, 35, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.23);
+      border-radius: 0.62rem;
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.36);
+      padding: 0.35rem;
+      display: grid;
+      gap: 0.28rem;
+      opacity: 0;
+      transform: translateY(-6px) scale(0.985);
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+      z-index: 12;
+    }
+
+    .theme-select.open .theme-select-menu {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .theme-select-option {
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0.5rem;
+      background: rgba(255, 255, 255, 0.06);
+      color: #f4f7ff;
+      padding: 0.54rem 0.58rem;
+      text-align: left;
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+    }
+
+    .theme-select-option:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .theme-select-option.is-selected {
+      border-color: rgba(127, 177, 255, 0.7);
+      background: rgba(79, 140, 255, 0.24);
+      color: #fff;
+    }
+
+    .theme-select-option:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.78);
+      outline-offset: 1px;
+    }
+
+    body.theme-neon {
+      color: #dfffff;
+      background: radial-gradient(circle at 20% 15%, #141042 0%, #070b1b 38%, #04070f 100%);
+    }
+
+    body.theme-neon .orb-left {
+      background: radial-gradient(circle at 30% 32%, rgba(0, 255, 220, 0.7), rgba(0, 158, 255, 0.14) 68%, rgba(0, 0, 0, 0) 74%);
+    }
+
+    body.theme-neon .orb-right {
+      background: radial-gradient(circle at 60% 45%, rgba(255, 0, 183, 0.62), rgba(91, 77, 255, 0.15) 66%, rgba(0, 0, 0, 0) 74%);
+    }
+
+    body.theme-neon .card {
+      background: rgba(6, 12, 22, 0.66);
+      border-color: rgba(41, 255, 244, 0.5);
+      box-shadow:
+        0 0 0 1px rgba(41, 255, 244, 0.25),
+        0 1.25rem 2.5rem rgba(0, 0, 0, 0.42),
+        0 0 2.2rem rgba(20, 161, 255, 0.2);
+    }
+
+    body.theme-neon .card h1 {
+      color: #94fff6;
+      text-shadow: 0 0 0.9rem rgba(0, 255, 229, 0.45);
+    }
+
+    body.theme-neon .link-btn {
+      background: rgba(6, 14, 26, 0.62);
+      border-color: rgba(41, 255, 244, 0.48);
+      color: #ccfffd;
+      box-shadow: inset 0 0 0.75rem rgba(0, 255, 220, 0.1);
+    }
+
+    body.theme-neon .link-btn:hover {
+      background: linear-gradient(135deg, rgba(19, 255, 230, 0.28), rgba(52, 117, 255, 0.34));
+      border-color: rgba(164, 255, 250, 0.82);
+      color: #f7ffff;
+    }
+
+    body.theme-neon .site-footer {
+      color: #a8fff7;
+      text-shadow: 0 0 1rem rgba(0, 255, 229, 0.4);
+      border-color: rgba(49, 255, 244, 0.45);
+      background: rgba(6, 12, 22, 0.56);
+    }
+
+    body.theme-neon .options-layer {
+      background: rgba(1, 5, 12, 0.8);
+      backdrop-filter: blur(20px) saturate(128%);
+      -webkit-backdrop-filter: blur(20px) saturate(128%);
+    }
+
+    body.theme-neon .options-panel {
+      background: rgba(5, 12, 22, 0.74);
+      border-color: rgba(50, 255, 245, 0.48);
+      box-shadow:
+        0 0 0 1px rgba(50, 255, 245, 0.22),
+        0 1.4rem 2.8rem rgba(0, 0, 0, 0.45),
+        0 0 2rem rgba(30, 133, 255, 0.25);
+    }
+
+    body.theme-neon .options-panel::before {
+      background: rgba(4, 10, 21, 0.62);
+      backdrop-filter: blur(28px) saturate(135%);
+      -webkit-backdrop-filter: blur(28px) saturate(135%);
+    }
+
+    body.theme-neon .options-title {
+      color: #a8fff7;
+      text-shadow: 0 0 0.9rem rgba(0, 255, 229, 0.28);
+    }
+
+    body.theme-neon .pref-card {
+      background: rgba(11, 21, 36, 0.66);
+      border-color: rgba(45, 255, 244, 0.36);
+    }
+
+    body.theme-neon .pref-card:hover {
+      background: rgba(14, 28, 46, 0.8);
+    }
+
+    body.theme-neon .pref-text strong {
+      color: #d8fffd;
+    }
+
+    body.theme-neon .pref-text span {
+      color: rgba(208, 255, 252, 0.84);
+    }
+
+    body.theme-neon .switch input:checked + .slider {
+      background-color: #1fe9ff;
+    }
+
+    body.theme-neon .btn-settings-toggle {
+      background: rgba(6, 17, 30, 0.72);
+      border-color: rgba(48, 255, 245, 0.52);
+      color: #cffffd;
+    }
+
+    body.theme-neon .btn-settings-toggle:hover {
+      background: linear-gradient(135deg, rgba(30, 255, 232, 0.35), rgba(72, 117, 255, 0.45));
+      color: #fff;
+    }
+
+    body.theme-neon .theme-select-trigger {
+      background: rgba(6, 17, 30, 0.72);
+      border-color: rgba(48, 255, 245, 0.52);
+      color: #cffffd;
+    }
+
+    body.theme-neon .theme-select-menu {
+      background: rgba(4, 12, 24, 0.96);
+      border-color: rgba(49, 255, 244, 0.42);
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5), 0 0 1.5rem rgba(0, 210, 255, 0.22);
+    }
+
+    body.theme-neon .theme-select-option {
+      background: rgba(9, 22, 38, 0.7);
+      border-color: rgba(49, 255, 244, 0.2);
+      color: #dbfffd;
+    }
+
+    body.theme-neon .theme-select-option:hover {
+      background: rgba(17, 38, 62, 0.92);
+    }
+
+    body.theme-neon .theme-select-option.is-selected {
+      background: linear-gradient(135deg, rgba(0, 255, 224, 0.28), rgba(76, 121, 255, 0.35));
+      border-color: rgba(131, 255, 249, 0.8);
+      color: #fff;
+    }
+
     body.low-spec .card,
     body.low-spec .link-btn,
     body.low-spec .about-window,
@@ -911,7 +1187,7 @@
       align-items: center;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 1s ease-in-out;
+      transition: opacity 200ms ease-out;
     }
 
     .terminal-overlay.active {
@@ -920,7 +1196,7 @@
     }
 
     .terminal-overlay.settings-launch {
-      transition: opacity 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: opacity 240ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .terminal-content {
@@ -937,7 +1213,7 @@
     }
 
     .terminal-overlay.settings-launch.active .terminal-content {
-      animation: terminalSettingsContentIn 760ms cubic-bezier(0.22, 1, 0.36, 1) 140ms forwards;
+      animation: terminalSettingsContentIn 260ms cubic-bezier(0.22, 1, 0.36, 1) 20ms forwards;
     }
 
     @keyframes terminalSettingsContentIn {
@@ -1124,7 +1400,7 @@
   <div class="bg-orb orb-right" aria-hidden="true"></div>
 
   <div class="card is-intro" id="mainCard">
-    <h1>ant19jx's website</h1>
+    <h1>8jxaaa's website</h1>
     <a class="link-btn" href="#">Portfolio</a>
     <a class="link-btn" href="#">Projects</a>
     <a class="link-btn" href="#">Contact</a>
@@ -1181,6 +1457,37 @@
 
         <div class="pref-card">
           <div class="pref-info">
+            <div class="pref-icon">TH</div>
+            <div class="pref-text">
+              <strong>Theme</strong>
+              <span>Choose your visual style preset.</span>
+            </div>
+          </div>
+          <div id="themeSelect" class="theme-select">
+            <button
+              id="themeSelectTrigger"
+              class="theme-select-trigger"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="themeSelectMenu"
+            >
+              <span id="themeSelectLabel" class="theme-select-label">Glassmorphism</span>
+              <span class="theme-select-caret" aria-hidden="true"></span>
+            </button>
+            <div id="themeSelectMenu" class="theme-select-menu" role="listbox" aria-label="Theme">
+              <button type="button" class="theme-select-option is-selected" data-theme-value="glassmorphism" role="option" aria-selected="true">
+                Glassmorphism
+              </button>
+              <button type="button" class="theme-select-option" data-theme-value="neon" role="option" aria-selected="false">
+                Neon
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pref-card">
+          <div class="pref-info">
             <div class="pref-icon">TR</div>
             <div class="pref-text">
               <strong>Terminal</strong>
@@ -1231,10 +1538,29 @@
   <script>
     let footerClickCount = 0;
     let terminalActivated = false;
-    const MAIN_OUTRO_DURATION = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 560;
-    const SETTINGS_TERMINAL_OUTRO_DURATION = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 760;
+    const MAIN_OUTRO_DURATION = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 180;
+    const SETTINGS_TERMINAL_OUTRO_DURATION = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 240;
     const ABOUT_CLOSE_DURATION = 240;
     const PERF_MODE_STORAGE_KEY = "performanceMode";
+    const APP_STATE_STORAGE_KEY = "linkDirectState.v1";
+    const THEME_PRESETS = {
+      glassmorphism: "Glassmorphism",
+      neon: "Neon"
+    };
+    function createDefaultAppState() {
+      return {
+        performanceMode: "disabled",
+        theme: "glassmorphism",
+        optionsOpen: false,
+        aboutWindow: {
+          left: null,
+          top: null,
+          width: null,
+          height: null
+        }
+      };
+    }
+    let appState = loadAppState();
     const aboutModeQuery = window.matchMedia("(max-width: 768px), (pointer: coarse), (hover: none)");
     const aboutWindowRuntime = {
       dragging: false,
@@ -1251,6 +1577,87 @@
       startY: 0
     };
 
+    function loadAppState() {
+      try {
+        const raw = localStorage.getItem(APP_STATE_STORAGE_KEY);
+        if (!raw) return createDefaultAppState();
+        const parsed = JSON.parse(raw);
+
+        return {
+          performanceMode: parsed && parsed.performanceMode === "enabled" ? "enabled" : "disabled",
+          theme: parsed && parsed.theme === "neon" ? "neon" : "glassmorphism",
+          optionsOpen: !!(parsed && parsed.optionsOpen),
+          aboutWindow: {
+            left: Number.isFinite(parsed && parsed.aboutWindow && parsed.aboutWindow.left) ? parsed.aboutWindow.left : null,
+            top: Number.isFinite(parsed && parsed.aboutWindow && parsed.aboutWindow.top) ? parsed.aboutWindow.top : null,
+            width: Number.isFinite(parsed && parsed.aboutWindow && parsed.aboutWindow.width) ? parsed.aboutWindow.width : null,
+            height: Number.isFinite(parsed && parsed.aboutWindow && parsed.aboutWindow.height) ? parsed.aboutWindow.height : null
+          }
+        };
+      } catch (_) {
+        return createDefaultAppState();
+      }
+    }
+
+    function saveAppState() {
+      try {
+        localStorage.setItem(APP_STATE_STORAGE_KEY, JSON.stringify(appState));
+      } catch (_) {}
+    }
+
+    function triggerThemeSwapAnimation() {
+      document.body.classList.remove("theme-transition-active");
+      void document.body.offsetWidth;
+      document.body.classList.add("theme-transition-active");
+      window.setTimeout(() => {
+        document.body.classList.remove("theme-transition-active");
+      }, 420);
+    }
+
+    function setTheme(theme, persist = true, animate = false) {
+      const nextTheme = theme === "neon" ? "neon" : "glassmorphism";
+      document.body.classList.toggle("theme-neon", nextTheme === "neon");
+
+      const label = document.getElementById("themeSelectLabel");
+      if (label) label.textContent = THEME_PRESETS[nextTheme];
+
+      const options = document.querySelectorAll(".theme-select-option");
+      options.forEach((option) => {
+        const selected = option.getAttribute("data-theme-value") === nextTheme;
+        option.classList.toggle("is-selected", selected);
+        option.setAttribute("aria-selected", selected ? "true" : "false");
+      });
+
+      if (animate) triggerThemeSwapAnimation();
+      if (!persist) return;
+
+      appState.theme = nextTheme;
+      saveAppState();
+    }
+
+    function initializeTheme() {
+      const saved = appState && appState.theme === "neon" ? "neon" : "glassmorphism";
+      appState.theme = saved;
+      saveAppState();
+      setTheme(saved, false, false);
+    }
+
+    function closeThemeDropdown() {
+      const select = document.getElementById("themeSelect");
+      const trigger = document.getElementById("themeSelectTrigger");
+      if (!select || !trigger) return;
+      select.classList.remove("open");
+      trigger.setAttribute("aria-expanded", "false");
+    }
+
+    function openThemeDropdown() {
+      const select = document.getElementById("themeSelect");
+      const trigger = document.getElementById("themeSelectTrigger");
+      if (!select || !trigger) return;
+      select.classList.add("open");
+      trigger.setAttribute("aria-expanded", "true");
+    }
+
     function setPerformanceMode(enabled, persist = true) {
       const nextEnabled = !!enabled;
       document.body.classList.toggle("low-spec", nextEnabled);
@@ -1259,18 +1666,58 @@
       if (perfToggle) perfToggle.checked = nextEnabled;
 
       if (!persist) return;
+      appState.performanceMode = nextEnabled ? "enabled" : "disabled";
+      saveAppState();
       try {
         localStorage.setItem(PERF_MODE_STORAGE_KEY, nextEnabled ? "enabled" : "disabled");
       } catch (_) {}
     }
 
     function initializePerformanceMode() {
-      let stored = "disabled";
+      let stored = appState.performanceMode;
+      if (stored !== "enabled" && stored !== "disabled") stored = "disabled";
+
+      // Backward compatibility with old storage key.
       try {
         const value = localStorage.getItem(PERF_MODE_STORAGE_KEY);
         if (value === "enabled" || value === "disabled") stored = value;
       } catch (_) {}
+
+      appState.performanceMode = stored;
+      saveAppState();
       setPerformanceMode(stored === "enabled", false);
+    }
+
+    function saveAboutWindowState() {
+      const win = document.getElementById("aboutWindow");
+      if (!win) return;
+      const rect = win.getBoundingClientRect();
+      appState.aboutWindow = {
+        left: Math.round(rect.left),
+        top: Math.round(rect.top),
+        width: Math.round(rect.width),
+        height: Math.round(rect.height)
+      };
+      saveAppState();
+    }
+
+    function applySavedAboutWindowState() {
+      const win = document.getElementById("aboutWindow");
+      if (!win) return;
+
+      const saved = appState.aboutWindow || {};
+      const width = Number.isFinite(saved.width) ? clampValue(saved.width, 320, Math.max(320, window.innerWidth - 16)) : null;
+      const height = Number.isFinite(saved.height) ? clampValue(saved.height, 224, Math.max(224, window.innerHeight - 16)) : null;
+      if (width !== null) win.style.width = width + "px";
+      if (height !== null) win.style.height = height + "px";
+
+      const nextRect = win.getBoundingClientRect();
+      const maxLeft = Math.max(8, window.innerWidth - nextRect.width - 8);
+      const maxTop = Math.max(8, window.innerHeight - nextRect.height - 8);
+      const left = Number.isFinite(saved.left) ? clampValue(saved.left, 8, maxLeft) : null;
+      const top = Number.isFinite(saved.top) ? clampValue(saved.top, 8, maxTop) : null;
+      if (left !== null) win.style.left = left + "px";
+      if (top !== null) win.style.top = top + "px";
     }
 
     function isAboutMobileMode() {
@@ -1320,7 +1767,17 @@
       overlay.classList.remove("closing", "active");
       overlay.setAttribute("aria-hidden", "false");
       void overlay.offsetWidth;
-      centerAboutWindow();
+      if (
+        appState &&
+        appState.aboutWindow &&
+        Number.isFinite(appState.aboutWindow.left) &&
+        Number.isFinite(appState.aboutWindow.top)
+      ) {
+        applySavedAboutWindowState();
+        keepAboutWindowInViewport();
+      } else {
+        centerAboutWindow();
+      }
       overlay.classList.add("active");
     }
 
@@ -1373,6 +1830,8 @@
       layer.classList.add("active");
       layer.setAttribute("aria-hidden", "false");
       document.body.classList.toggle("options-mobile-open", isAboutMobileMode());
+      appState.optionsOpen = true;
+      saveAppState();
     }
 
     function closeOptionsLayer() {
@@ -1381,6 +1840,9 @@
       layer.classList.remove("active");
       layer.setAttribute("aria-hidden", "true");
       document.body.classList.remove("options-mobile-open");
+      closeThemeDropdown();
+      appState.optionsOpen = false;
+      saveAppState();
     }
 
     function setupOptionsLayer() {
@@ -1389,6 +1851,9 @@
       const optionsClose = document.getElementById("optionsClose");
       const perfToggle = document.getElementById("perfToggle");
       const openTerminalFromOptions = document.getElementById("openTerminalFromOptions");
+      const themeSelect = document.getElementById("themeSelect");
+      const themeTrigger = document.getElementById("themeSelectTrigger");
+      const themeMenu = document.getElementById("themeSelectMenu");
 
       if (optionsLink) {
         optionsLink.addEventListener("click", (event) => {
@@ -1416,6 +1881,28 @@
         });
       }
 
+      if (themeTrigger && themeSelect) {
+        themeTrigger.addEventListener("click", (event) => {
+          event.preventDefault();
+          const isOpen = themeSelect.classList.contains("open");
+          if (isOpen) {
+            closeThemeDropdown();
+          } else {
+            openThemeDropdown();
+          }
+        });
+      }
+
+      if (themeMenu) {
+        themeMenu.addEventListener("click", (event) => {
+          const option = event.target.closest(".theme-select-option");
+          if (!option) return;
+          const nextTheme = option.getAttribute("data-theme-value");
+          setTheme(nextTheme, true, true);
+          closeThemeDropdown();
+        });
+      }
+
       if (openTerminalFromOptions) {
         openTerminalFromOptions.addEventListener("click", (event) => {
           event.preventDefault();
@@ -1424,8 +1911,57 @@
       }
 
       document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") closeOptionsLayer();
+        if (event.key === "Escape") {
+          if (themeSelect && themeSelect.classList.contains("open")) {
+            closeThemeDropdown();
+            return;
+          }
+          closeOptionsLayer();
+        }
       });
+
+      document.addEventListener("click", (event) => {
+        if (!themeSelect) return;
+        if (themeSelect.contains(event.target)) return;
+        closeThemeDropdown();
+      });
+
+      if (themeTrigger && themeMenu) {
+        themeTrigger.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openThemeDropdown();
+            const selected = themeMenu.querySelector(".theme-select-option.is-selected");
+            if (selected) selected.focus();
+          }
+        });
+
+        themeMenu.addEventListener("keydown", (event) => {
+          const options = Array.from(themeMenu.querySelectorAll(".theme-select-option"));
+          if (!options.length) return;
+          const currentIndex = options.indexOf(document.activeElement);
+
+          if (event.key === "ArrowDown") {
+            event.preventDefault();
+            const nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
+            options[nextIndex].focus();
+            return;
+          }
+
+          if (event.key === "ArrowUp") {
+            event.preventDefault();
+            const prevIndex = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
+            options[prevIndex].focus();
+            return;
+          }
+
+          if (event.key === "Escape") {
+            event.preventDefault();
+            closeThemeDropdown();
+            themeTrigger.focus();
+          }
+        });
+      }
 
       const syncOptionsMobileOrbState = () => {
         if (optionsLayer && optionsLayer.classList.contains("active") && isAboutMobileMode()) {
@@ -1568,10 +2104,16 @@
       });
 
       window.addEventListener("pointerup", () => {
+        if (aboutWindowRuntime.dragging || aboutWindowRuntime.resizing) {
+          saveAboutWindowState();
+        }
         stopAboutPointerInteractions();
       });
 
       window.addEventListener("pointercancel", () => {
+        if (aboutWindowRuntime.dragging || aboutWindowRuntime.resizing) {
+          saveAboutWindowState();
+        }
         stopAboutPointerInteractions();
       });
 
@@ -1599,6 +2141,9 @@
           if (event.target === mobileLayer) closeAboutMobileLayer();
         });
       }
+
+      applySavedAboutWindowState();
+      keepAboutWindowInViewport();
     }
 
     function animateMainContentIntro() {
@@ -1743,8 +2288,8 @@
             if (tLoader) tLoader.style.display = "none";
             if (tText) tText.style.display = "none";
             if (tOptions) tOptions.style.display = "flex";
-          }, 850);
-        });
+          }, 280);
+        }, 12, 70);
       };
 
       if (isSettingsLaunch) {
@@ -1894,11 +2439,13 @@
       });
     }
 
+    initializeTheme();
     initializePerformanceMode();
     setupTerminalOverlay();
     setupVersionTerminalTrigger();
     setupAboutInteractions();
     setupOptionsLayer();
+    if (appState.optionsOpen) openOptionsLayer();
   </script>
   
 </body>
