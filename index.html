@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0d162f">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>8jxaaa's website</title>
   <style>
@@ -24,8 +26,12 @@
 
     * {
       box-sizing: border-box;
-      font-family: "Montserrat", "Segoe UI", Arial, sans-serif !important;
+      font-family: "Montserrat", sans-serif !important;
       font-weight: 300;
+      user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  touch-action: none;
     }
 
     html,
@@ -35,6 +41,13 @@
       height: 100%;
       min-height: 100%;
     }
+
+    html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: linear-gradient(145deg, #0d162f, #141d39 45%, #0e1730);
+}
 
     html {
       background: linear-gradient(145deg, #0d162f, #141d39 45%, #0e1730);
@@ -1409,7 +1422,7 @@
     <!-- <a class="link-btn" href="#" id="aboutLink">About</a> -->
   </div>
   <footer class="site-footer is-intro" id="versionFooter" tabindex="0" role="button" aria-label="Version 1.0.2">
-    v1.0.2
+    v1.0.3 - Public Build 5912842
   </footer>
 
   <div id="aboutDesktopOverlay" class="about-desktop-overlay" aria-hidden="true">
@@ -2447,6 +2460,37 @@
     setupOptionsLayer();
     if (appState.optionsOpen) openOptionsLayer();
   </script>
+
+  <script>
+// block keyboard shortcuts
+document.addEventListener("keydown", function(e) {
+  if (
+    e.ctrlKey || 
+    e.metaKey || 
+    e.key === "F12" ||
+    e.key === "F5"
+  ) {
+    e.preventDefault();
+  }
+});
+
+// block right click
+document.addEventListener("contextmenu", e => e.preventDefault());
+
+// block zoom (ctrl + scroll)
+document.addEventListener("wheel", function(e) {
+  if (e.ctrlKey) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+// block pinch zoom
+document.addEventListener("touchmove", function(e) {
+  if (e.scale !== 1) {
+    e.preventDefault();
+  }
+}, { passive: false });
+</script>
   
 </body>
 </html>
